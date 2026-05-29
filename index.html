@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💖 Love Story</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
+
+<style>
+
+/* ===== Base ===== */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Amiri', serif;
+}
+
+body{
+background:radial-gradient(circle,#1a0010,#000);
+color:white;
+overflow-x:hidden;
+text-align:center;
+}
+
+/* ===== Floating Hearts & Stars ===== */
+.heart,.star{
+position:fixed;
+bottom:-20px;
+pointer-events:none;
+opacity:0;
+animation:floatUp linear forwards;
+filter:drop-shadow(0 0 6px #ff4d88);
+}
+
+.heart{color:#ff4d88;}
+.star{color:#fff;}
+
+@keyframes floatUp{
+0%{transform:translateY(0) scale(0.5);opacity:0;}
+15%{opacity:1;}
+100%{transform:translateY(-120vh) scale(1);opacity:0;}
+}
+
+/* ===== Password Screen ===== */
+#passwordScreen{
+position:fixed;
+inset:0;
+background:linear-gradient(135deg,#3a001f,#a1004a,#ff4d88);
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+z-index:999;
+}
+
+.modal{
+background:rgba(0,0,0,0.5);
+padding:25px;
+border-radius:20px;
+backdrop-filter:blur(10px);
+}
+
+/* ===== Main ===== */
+#main{
+display:none;
+padding:15px;
+animation:fadeIn 1.5s ease;
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:scale(0.95);}
+to{opacity:1;transform:scale(1);}
+}
+
+/* ===== Boxes ===== */
+.box{
+background:rgba(255,192,203,0.15);
+backdrop-filter:blur(10px);
+padding:15px;
+border-radius:20px;
+margin:15px 0;
+}
+
+/* ===== Typewriter ===== */
+.typewriter{
+min-height:120px;
+line-height:2;
+font-size:18px;
+}
+
+/* ===== Images ===== */
+img{
+width:100%;
+border-radius:15px;
+margin-top:10px;
+}
+
+/* ===== Cards ===== */
+.cards{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+}
+
+.card{
+height:100px;
+background:rgba(255,255,255,0.1);
+border-radius:15px;
+display:flex;
+justify-content:center;
+align-items:center;
+cursor:pointer;
+transition:.6s;
+}
+
+.card.flip{
+transform:rotateY(180deg);
+}
+
+/* ===== Counter Hearts ===== */
+.counter{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:10px;
+}
+
+.counter div{
+background:rgba(255,105,180,0.25);
+padding:12px;
+border-radius:15px;
+}
+
+/* ===== Buttons ===== */
+button{
+background:#ff4d88;
+border:none;
+padding:10px;
+border-radius:10px;
+color:white;
+cursor:pointer;
+margin:5px;
+}
+
+/* ===== Popup ===== */
+.popup{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.6);
+align-items:center;
+justify-content:center;
+}
+
+.popup-content{
+background:rgba(255,192,203,0.25);
+padding:20px;
+border-radius:20px;
+width:80%;
+backdrop-filter:blur(10px);
+}
+
+.hidden{display:none}
+
+</style>
+</head>
+
+<body>
+
+<!-- ===== Password ===== -->
+<div id="passwordScreen">
+<div class="modal">
+<h2>🔐 Password</h2>
+<input id="pass" type="password">
+<br>
+<button onclick="enter()">دخول</button>
+</div>
+</div>
+
+<!-- ===== Main ===== -->
+<div id="main">
+
+<audio id="music" loop>
+<source src="music.mp3">
+</audio>
+
+<!-- Typewriter -->
+<div class="box">
+<div id="type" class="typewriter"></div>
+</div>
+
+<!-- ===== 6 Images ===== -->
+<div class="box">
+<img src="photo1.jpg"><p>إنتي أحلى حاجة في حياتي ❤️</p>
+<img src="photo2.jpg"><p>ضحكتك بتسرق قلبي ❤️</p>
+<img src="photo3.jpg"><p>إنتي راحة قلبي ❤️</p>
+<img src="photo4.jpg"><p>وجودك نعمة ❤️</p>
+<img src="photo5.jpg"><p>كل يوم بحبك أكتر ❤️</p>
+<img src="photo6.jpg"><p>إنتي الأمان ❤️</p>
+</div>
+
+<!-- ===== Cards ===== -->
+<div class="box cards">
+
+<div class="card" onclick="flip(this)">1 - حبيت ❤️</div>
+<div class="card" onclick="flip(this)">2 - ومش بحب</div>
+<div class="card" onclick="flip(this)">3 - ولا هحب</div>
+<div class="card" onclick="flip(this)">4 - حد قدك 👑</div>
+
+</div>
+
+<!-- ===== Counter ===== -->
+<div class="box counter" id="counter"></div>
+
+<!-- ===== Memories Popup ===== -->
+<button onclick="openMem()">💖 الذكريات</button>
+
+<div class="popup" id="mem">
+<div class="popup-content">
+<p>🎂 10/2/2015</p>
+<p>💕 29/4/2025</p>
+<button onclick="closeMem()">إغلاق</button>
+</div>
+</div>
+
+<!-- ===== Question ===== -->
+<div class="box">
+<p>Do you love me?</p>
+<button onclick="ans('yes')">Yes</button>
+<button onclick="ans('no')">No</button>
+<div id="res"></div>
+</div>
+
+<!-- ===== Final Image ===== -->
+<div class="box">
+<img src="photo7.jpg">
+<p>أنا بحبك بجد ❤️</p>
+<p>إنتي أغلى حاجة عندي ❤️</p>
+<p>نفسي تفضلي معايا للأبد ❤️</p>
+<p>وجودك فرق حياتي ❤️</p>
+</div>
+
+<!-- ===== Final Love ===== -->
+<div class="box">
+
+أنا مش بعرف أعيش من غيرك ❤️<br>
+إنتي روحي ❤️<br>
+كل يوم بحبك أكتر ❤️<br>
+إنتي الأمان ❤️<br>
+أنا متمسك بيكي ❤️<br>
+مش هسيبك أبدًا ❤️<br>
+إنتي كل حاجة ❤️<br>
+وجودك نعمة ❤️<br>
+بحبك بطريقة مش طبيعية ❤️<br>
+إنتي حياتي كلها ❤️<br>
+أنا ليكي للأبد ❤️<br>
+وعد مني ❤️<br>
+لو الدنيا كلها سابتني أنا معاكي ❤️<br>
+مش عايز غيرك ❤️<br>
+إنتي البداية والنهاية ❤️
+
+</div>
+
+</div>
+
+<script>
+
+/* ===== Enter ===== */
+function enter(){
+if(pass.value==="love"){
+passwordScreen.style.display="none";
+main.style.display="block";
+music.play();
+typeWriter();
+}
+}
+
+/* ===== Typewriter ===== */
+function typeWriter(){
+let text=`بحبك ❤️
+إنتي النور اللي في حياتي ❤️
+مش قادر أعيش من غيرك ❤️
+كل يوم بحبك أكتر ❤️
+إنتي الدنيا كلها ❤️`;
+
+let i=0;
+let el=document.getElementById("type");
+
+function run(){
+if(i<text.length){
+el.innerHTML+=text[i++];
+setTimeout(run,50);
+}
+}
+run();
+}
+
+/* ===== Flip ===== */
+function flip(c){
+c.classList.toggle("flip");
+}
+
+/* ===== Memory ===== */
+function openMem(){
+document.getElementById("mem").style.display="flex";
+}
+function closeMem(){
+document.getElementById("mem").style.display="none";
+}
+
+/* ===== Answer ===== */
+function ans(a){
+let r=document.getElementById("res");
+
+if(a==="yes"){
+r.innerHTML="بحبك يا هبلة 🤭❤️";
+r.style.background="rgba(255,105,180,0.4)";
+}else{
+r.innerHTML="اخص عليك 😡";
+r.style.background="rgba(255,0,0,0.3)";
+}
+}
+
+/* ===== Counter ===== */
+const start=new Date("2025-04-29T06:27:30");
+
+setInterval(()=>{
+let d=new Date()-start;
+
+let sec=Math.floor(d/1000);
+let min=Math.floor(sec/60);
+let hr=Math.floor(min/60);
+let day=Math.floor(hr/24);
+
+counter.innerHTML=`
+<div>💖 ${day} يوم</div>
+<div>💖 ${hr} ساعة</div>
+<div>💖 ${min} دقيقة</div>
+<div>💖 ${sec} ثانية</div>
+`;
+},1000);
+
+/* ===== Hearts + Stars ===== */
+function heart(){
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML="❤️";
+h.style.left=Math.random()*100+"vw";
+h.style.animationDuration=(5+Math.random()*5)+"s";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),10000);
+}
+
+function star(){
+let s=document.createElement("div");
+s.className="star";
+s.innerHTML="✨";
+s.style.left=Math.random()*100+"vw";
+s.style.animationDuration=(6+Math.random()*6)+"s";
+document.body.appendChild(s);
+setTimeout(()=>s.remove(),12000);
+}
+
+setInterval(heart,500);
+setInterval(star,900);
+
+</script>
+
+</body>
+  </html>
